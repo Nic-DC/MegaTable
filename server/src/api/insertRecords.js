@@ -9,11 +9,11 @@ const generateRecords = (count) => {
 
   for (let i = 0; i < count; i++) {
     records.push({
-      column1: random.string(10), // Generate a random string of length 10
+      column1: random.string(10),
       column2: random.string(10),
       column3: random.string(10),
       column4: random.string(10),
-      priority: random.integer(1, 3), // Generate a random integer between 1 and 3
+      column5: random.string(10),
     });
   }
 
