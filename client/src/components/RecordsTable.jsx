@@ -16,6 +16,8 @@ import DownloadIcon from "@mui/icons-material/Download";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import Divider from "@mui/material/Divider";
+import { useDispatch } from "react-redux";
+import { selectRecordAction } from "../redux/actions";
 
 function RecordsTable() {
   const [rows, setRows] = useState([]);
@@ -23,6 +25,8 @@ function RecordsTable() {
   const [page, setPage] = useState(1);
   const [totalRecords, setTotalRecords] = useState(0);
   const rowsPerPage = 9;
+
+  const dispatch = useDispatch();
 
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -82,6 +86,7 @@ function RecordsTable() {
               {rows.map((row, rowIndex) => (
                 <TableRow key={rowIndex}>
                   <TableCell
+                    onClick={() => dispatch(selectRecordAction(row))}
                     key={`${rowIndex}-_id`}
                     align="left"
                     sx={{
