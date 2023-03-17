@@ -101,6 +101,7 @@ function RecordsTable() {
                     {row._id}
                   </TableCell>
                   <TableCell
+                    onClick={() => dispatch(selectRecordAction(row))}
                     key={`${rowIndex}-column1`}
                     align="right"
                     sx={{
@@ -115,6 +116,7 @@ function RecordsTable() {
                     {row.column1}
                   </TableCell>
                   <TableCell
+                    onClick={() => dispatch(selectRecordAction(row))}
                     key={`${rowIndex}-column2`}
                     align="right"
                     sx={{
@@ -129,6 +131,7 @@ function RecordsTable() {
                     {row.column2}
                   </TableCell>
                   <TableCell
+                    onClick={() => dispatch(selectRecordAction(row))}
                     key={`${rowIndex}-column3`}
                     align="right"
                     sx={{
@@ -143,6 +146,7 @@ function RecordsTable() {
                     {row.column3}
                   </TableCell>
                   <TableCell
+                    onClick={() => dispatch(selectRecordAction(row))}
                     key={`${rowIndex}-column4`}
                     align="right"
                     sx={{
@@ -157,6 +161,7 @@ function RecordsTable() {
                     {row.column4}
                   </TableCell>
                   <TableCell
+                    onClick={() => dispatch(selectRecordAction(row))}
                     key={`${rowIndex}-column5`}
                     align="right"
                     sx={{
