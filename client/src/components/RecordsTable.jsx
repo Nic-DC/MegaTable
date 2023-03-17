@@ -17,8 +17,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import Divider from "@mui/material/Divider";
 import { useDispatch } from "react-redux";
-import { selectRecordAction } from "../redux/actions";
+import { selectRecordAction, selectCellAction } from "../redux/actions";
 import AddRecordModal from "./Modal/AddRecordModal";
+import EditOrDeleteModal from "./Modal/EditOrDeleteModal";
 
 function RecordsTable() {
   const [rows, setRows] = useState([]);
@@ -68,11 +69,27 @@ function RecordsTable() {
     setOpenAdd(false);
   };
 
-  /* ------ EDIT RECORD -------*/
+  /* ------ EDIT & DELETE COMMON VARIABLES -------*/
+  const [editOrDeleteOpen, setEditOrDeleteOpen] = useState(false);
+
+  const handleOpenEditOrDelete = () => {
+    setEditOrDeleteOpen(true);
+  };
+
+  const handleCloseEditOrDelete = () => {
+    setEditOrDeleteOpen(false);
+  };
+
+  /* ------ EDIT CELL -------*/
+  const [fetchEdit, setFetchEdit] = useState(false);
+
+  /* ------ DELETE CELL -------*/
+  const [fetchDelete, setFetchDelete] = useState(false);
 
   useEffect(() => {
     fetchRecords();
-  }, []);
+    setFetchEdit(false);
+  }, [fetchEdit, fetchDelete]);
 
   return (
     <Box
@@ -105,7 +122,10 @@ function RecordsTable() {
               {rows.map((row, rowIndex) => (
                 <TableRow key={rowIndex}>
                   <TableCell
-                    onClick={() => dispatch(selectRecordAction(row))}
+                    onClick={() => {
+                      dispatch(selectRecordAction(row));
+                      handleOpenEditOrDelete();
+                    }}
                     key={`${rowIndex}-_id`}
                     align="left"
                     sx={{
@@ -120,7 +140,10 @@ function RecordsTable() {
                     {row._id}
                   </TableCell>
                   <TableCell
-                    onClick={() => dispatch(selectRecordAction(row))}
+                    onClick={() => {
+                      dispatch(selectCellAction({ _id: row._id, column1: row.column1 }));
+                      handleOpenEditOrDelete();
+                    }}
                     key={`${rowIndex}-column1`}
                     align="right"
                     sx={{
@@ -135,7 +158,11 @@ function RecordsTable() {
                     {row.column1}
                   </TableCell>
                   <TableCell
-                    onClick={() => dispatch(selectRecordAction(row))}
+                    onClick={() => {
+                      // dispatch(selectRecordAction(row));
+                      dispatch(selectCellAction({ _id: row._id, column2: row.column2 }));
+                      handleOpenEditOrDelete();
+                    }}
                     key={`${rowIndex}-column2`}
                     align="right"
                     sx={{
@@ -150,7 +177,11 @@ function RecordsTable() {
                     {row.column2}
                   </TableCell>
                   <TableCell
-                    onClick={() => dispatch(selectRecordAction(row))}
+                    onClick={() => {
+                      // dispatch(selectRecordAction(row));
+                      dispatch(selectCellAction({ _id: row._id, column3: row.column3 }));
+                      handleOpenEditOrDelete();
+                    }}
                     key={`${rowIndex}-column3`}
                     align="right"
                     sx={{
@@ -165,7 +196,11 @@ function RecordsTable() {
                     {row.column3}
                   </TableCell>
                   <TableCell
-                    onClick={() => dispatch(selectRecordAction(row))}
+                    onClick={() => {
+                      // dispatch(selectRecordAction(row));
+                      dispatch(selectCellAction({ _id: row._id, column4: row.column4 }));
+                      handleOpenEditOrDelete();
+                    }}
                     key={`${rowIndex}-column4`}
                     align="right"
                     sx={{
@@ -180,7 +215,11 @@ function RecordsTable() {
                     {row.column4}
                   </TableCell>
                   <TableCell
-                    onClick={() => dispatch(selectRecordAction(row))}
+                    onClick={() => {
+                      // dispatch(selectRecordAction(row));
+                      dispatch(selectCellAction({ _id: row._id, column5: row.column5 }));
+                      handleOpenEditOrDelete();
+                    }}
                     key={`${rowIndex}-column5`}
                     align="right"
                     sx={{
@@ -256,6 +295,12 @@ function RecordsTable() {
           </Button>
         </Tooltip>
       </Box>
+      <EditOrDeleteModal
+        editOrDeleteOpen={editOrDeleteOpen}
+        handleCloseEditOrDelete={handleCloseEditOrDelete}
+        fetchEdit={fetchEdit}
+        setFetchEdit={setFetchEdit}
+      />
     </Box>
   );
 }

@@ -1,8 +1,9 @@
-import { SELECT_RECORD, ADD_RECORD } from "../actions";
+import { SELECT_RECORD, ADD_RECORD, SELECT_CELL, EDIT_CELL } from "../actions";
 
 const initialState = {
   records: {
     selectedRecord: null,
+    selectedCell: null,
     recordsArray: [],
   },
 };
@@ -18,12 +19,33 @@ const mainReducer = (state = initialState, action) => {
         },
       };
 
+    case SELECT_CELL:
+      return {
+        ...state,
+        records: {
+          ...state.records,
+          selectedCell: action.payload,
+        },
+      };
+
     case ADD_RECORD:
       return {
         ...state,
         records: {
           ...state.records,
           recordsArray: [...state.records.recordsArray, action.payload],
+        },
+      };
+
+    case EDIT_CELL:
+      const updatedRecords = state.records.recordsArray.map((record) =>
+        record._id === action.payload._id ? action.payload : record
+      );
+      return {
+        ...state,
+        records: {
+          ...state.records,
+          recordsArray: updatedRecords,
         },
       };
 
