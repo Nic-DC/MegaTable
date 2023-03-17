@@ -26,6 +26,10 @@ function RecordsTable() {
   const theme = useTheme();
   const [page, setPage] = useState(1);
   const [totalRecords, setTotalRecords] = useState(0);
+
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [selectedColumn, setSelectedColumn] = useState(null);
+
   const rowsPerPage = 9;
 
   const dispatch = useDispatch();
@@ -50,6 +54,15 @@ function RecordsTable() {
       }
     } catch (error) {
       console.error("Error fetching records:", error);
+    }
+  };
+
+  // handle column header clicks
+  const handleColumnHeaderClick = (columnName) => {
+    if (selectedColumn === columnName) {
+      setSelectedColumn(null);
+    } else {
+      setSelectedColumn(columnName);
     }
   };
 
@@ -111,30 +124,65 @@ function RecordsTable() {
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>
-                <TableCell>Column 1</TableCell>
-                <TableCell>Column 2</TableCell>
-                <TableCell>Column 3</TableCell>
-                <TableCell>Column 4</TableCell>
-                <TableCell>Column 5</TableCell>
+                <TableCell
+                  align="right"
+                  sx={{ color: selectedColumn === "column1" ? "orangered" : "#90caf9" }}
+                  onClick={() => handleColumnHeaderClick("column1")}
+                >
+                  Column 1
+                </TableCell>
+                <TableCell
+                  align="right"
+                  sx={{ color: selectedColumn === "column2" ? "orangered" : "#90caf9" }}
+                  onClick={() => handleColumnHeaderClick("column2")}
+                >
+                  Column 2
+                </TableCell>
+                <TableCell
+                  align="right"
+                  sx={{ color: selectedColumn === "column3" ? "orangered" : "#90caf9" }}
+                  onClick={() => handleColumnHeaderClick("column3")}
+                >
+                  Column 3
+                </TableCell>
+                <TableCell
+                  align="right"
+                  sx={{ color: selectedColumn === "column4" ? "orangered" : "#90caf9" }}
+                  onClick={() => handleColumnHeaderClick("column4")}
+                >
+                  Column 4
+                </TableCell>
+                <TableCell
+                  align="right"
+                  sx={{ color: selectedColumn === "column5" ? "orangered" : "#90caf9" }}
+                  onClick={() => handleColumnHeaderClick("column5")}
+                >
+                  Column 5
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {rows.map((row, rowIndex) => (
-                <TableRow key={rowIndex}>
+                <TableRow
+                  key={rowIndex}
+                  sx={{
+                    backgroundColor: selectedRow === rowIndex ? "orangered" : "inherit",
+                  }}
+                >
                   <TableCell
-                    // onClick={() => {
-                    //   dispatch(selectRecordAction(row));
-                    //   handleOpenEditOrDelete();
-                    // }}
                     key={`${rowIndex}-_id`}
                     align="left"
                     sx={{
-                      minWidth: 170,
+                      minWidth: 150,
                       cursor: "pointer",
                       "&:hover": {
                         backgroundColor: "#90caf9",
                         color: "rgba(0,0,0,0.7)",
                       },
+                    }}
+                    onClick={() => {
+                      dispatch(selectRecordAction(row));
+                      setSelectedRow(selectedRow === rowIndex ? null : rowIndex);
                     }}
                   >
                     {row._id}
@@ -142,12 +190,13 @@ function RecordsTable() {
                   <TableCell
                     onClick={() => {
                       dispatch(selectCellAction({ _id: row._id, column1: row.column1 }));
+                      //  setSelectedRow(selectedRow === rowIndex ? null : rowIndex);
                       handleOpenEditOrDelete();
                     }}
                     key={`${rowIndex}-column1`}
                     align="right"
                     sx={{
-                      minWidth: 170,
+                      minWidth: 150,
                       cursor: "pointer",
                       "&:hover": {
                         backgroundColor: "#90caf9",
@@ -161,12 +210,13 @@ function RecordsTable() {
                     onClick={() => {
                       // dispatch(selectRecordAction(row));
                       dispatch(selectCellAction({ _id: row._id, column2: row.column2 }));
+                      // setSelectedRow(selectedRow === rowIndex ? null : rowIndex);
                       handleOpenEditOrDelete();
                     }}
                     key={`${rowIndex}-column2`}
                     align="right"
                     sx={{
-                      minWidth: 170,
+                      minWidth: 150,
                       cursor: "pointer",
                       "&:hover": {
                         backgroundColor: "#90caf9",
@@ -180,12 +230,13 @@ function RecordsTable() {
                     onClick={() => {
                       // dispatch(selectRecordAction(row));
                       dispatch(selectCellAction({ _id: row._id, column3: row.column3 }));
+                      // setSelectedRow(selectedRow === rowIndex ? null : rowIndex);
                       handleOpenEditOrDelete();
                     }}
                     key={`${rowIndex}-column3`}
                     align="right"
                     sx={{
-                      minWidth: 170,
+                      minWidth: 150,
                       cursor: "pointer",
                       "&:hover": {
                         backgroundColor: "#90caf9",
@@ -199,12 +250,13 @@ function RecordsTable() {
                     onClick={() => {
                       // dispatch(selectRecordAction(row));
                       dispatch(selectCellAction({ _id: row._id, column4: row.column4 }));
+                      // setSelectedRow(selectedRow === rowIndex ? null : rowIndex);
                       handleOpenEditOrDelete();
                     }}
                     key={`${rowIndex}-column4`}
                     align="right"
                     sx={{
-                      minWidth: 170,
+                      minWidth: 150,
                       cursor: "pointer",
                       "&:hover": {
                         backgroundColor: "#90caf9",
@@ -218,12 +270,13 @@ function RecordsTable() {
                     onClick={() => {
                       // dispatch(selectRecordAction(row));
                       dispatch(selectCellAction({ _id: row._id, column5: row.column5 }));
+                      // setSelectedRow(selectedRow === rowIndex ? null : rowIndex);
                       handleOpenEditOrDelete();
                     }}
                     key={`${rowIndex}-column5`}
                     align="right"
                     sx={{
-                      minWidth: 170,
+                      minWidth: 150,
                       cursor: "pointer",
                       "&:hover": {
                         backgroundColor: "#90caf9",
