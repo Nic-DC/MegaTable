@@ -122,10 +122,10 @@ function RecordsTable() {
               {rows.map((row, rowIndex) => (
                 <TableRow key={rowIndex}>
                   <TableCell
-                    onClick={() => {
-                      dispatch(selectRecordAction(row));
-                      handleOpenEditOrDelete();
-                    }}
+                    // onClick={() => {
+                    //   dispatch(selectRecordAction(row));
+                    //   handleOpenEditOrDelete();
+                    // }}
                     key={`${rowIndex}-_id`}
                     align="left"
                     sx={{
@@ -298,7 +298,7 @@ function RecordsTable() {
       <EditOrDeleteModal
         editOrDeleteOpen={editOrDeleteOpen}
         handleCloseEditOrDelete={handleCloseEditOrDelete}
-        fetchEdit={fetchEdit}
+        setFetchDelete={setFetchDelete}
         setFetchEdit={setFetchEdit}
       />
     </Box>

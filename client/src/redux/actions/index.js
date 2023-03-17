@@ -2,6 +2,7 @@ export const SELECT_RECORD = `SELECT_RECORD`;
 export const SELECT_CELL = `SELECT_CELL`;
 export const ADD_RECORD = `ADD_RECORD`;
 export const EDIT_CELL = `EDIT_CELL`;
+export const DELETE_CELL = `DELETE_CELL`;
 
 export const selectRecordAction = (record) => {
   return {
@@ -62,5 +63,29 @@ export const editCellAction = (id, columnName, newValue) => async (dispatch) => 
     }
   } catch (error) {
     console.error("Error editing cell:", error);
+  }
+};
+
+export const deleteCellAction = (id, columnName) => async (dispatch) => {
+  try {
+    const response = await fetch(`http://localhost:3010/table/${id}/delete-cell`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ columnName }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch({
+        type: DELETE_CELL,
+        payload: data,
+      });
+    } else {
+      console.error("Error deleting cell:", response.status);
+    }
+  } catch (error) {
+    console.error("Error deleting cell:", error);
   }
 };
