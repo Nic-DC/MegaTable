@@ -18,6 +18,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Divider from "@mui/material/Divider";
 import { useDispatch } from "react-redux";
 import { selectRecordAction } from "../redux/actions";
+import AddRecordModal from "./Modal/AddRecordModal";
 
 function RecordsTable() {
   const [rows, setRows] = useState([]);
@@ -50,6 +51,24 @@ function RecordsTable() {
       console.error("Error fetching records:", error);
     }
   };
+
+  /* ------ ADD RECORD -------*/
+  const [openAdd, setOpenAdd] = useState(false);
+  const [newRecord, setNewRecord] = useState("");
+  const [columnNameAdd, setColumnNameAdd] = useState("");
+
+  const handleOpenAdd = () => {
+    console.log("POST modal open");
+    setOpenAdd(true);
+  };
+
+  const handleCloseAdd = () => {
+    setNewRecord("");
+    setColumnNameAdd("");
+    setOpenAdd(false);
+  };
+
+  /* ------ EDIT RECORD -------*/
 
   useEffect(() => {
     fetchRecords();
@@ -201,43 +220,41 @@ function RecordsTable() {
           marginLeft: 5,
         }}
       >
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{
-            marginBottom: 2,
-            minWidth: "80%",
-          }}
-        >
-          <Tooltip title="Add record" placement="right-end">
-            <AddIcon />
-          </Tooltip>
-        </Button>
+        <AddRecordModal
+          openAdd={openAdd}
+          handleCloseAdd={handleCloseAdd}
+          handleOpenAdd={handleOpenAdd}
+          newRecord={newRecord}
+          setNewRecord={setNewRecord}
+          columnNameAdd={columnNameAdd}
+          setColumnNameAdd={setColumnNameAdd}
+        />
+
         <Divider orientation="horizontal" sx={{ width: "100%", marginBottom: 2 }} />
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{
-            marginBottom: 2,
-            backgroundColor: "#90caf9",
-            minWidth: "80%",
-          }}
-        >
-          <Tooltip title="Download table" placement="right-end">
+        <Tooltip title="Download table" placement="right-end">
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              marginBottom: 2,
+              backgroundColor: "#90caf9",
+              minWidth: "80%",
+            }}
+          >
             <DownloadIcon />
-          </Tooltip>
-        </Button>
-        <Button
-          variant="contained"
-          sx={{
-            backgroundColor: "orangeRed",
-            minWidth: "100%",
-          }}
-        >
-          <Tooltip title="Delete table" placement="right-end">
+          </Button>
+        </Tooltip>
+        <Tooltip title="Delete table" placement="right-end">
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "orangeRed",
+              minWidth: "100%",
+            }}
+          >
             <DeleteIcon />
-          </Tooltip>
-        </Button>
+          </Button>
+        </Tooltip>
       </Box>
     </Box>
   );
