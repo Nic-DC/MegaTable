@@ -30,12 +30,25 @@ tableRoutes.post("/", async (req, res, next) => {
 /* --- Read all records --- */
 tableRoutes.get("/", async (req, res, next) => {
   try {
-    const records = await Table.find();
-    res.status(200).send(records);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 9;
+    const skip = (page - 1) * limit;
+
+    const totalRecords = await Table.countDocuments();
+    const records = await Table.find().skip(skip).limit(limit);
+    res.status(200).send({ records, totalRecords });
   } catch (error) {
     next(error);
   }
 });
+// tableRoutes.get("/", async (req, res, next) => {
+//   try {
+//     const records = await Table.find();
+//     res.status(200).send(records);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 /* --- Update cell --- */
 tableRoutes.put("/:id/update-cell", async (req, res, next) => {
