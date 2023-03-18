@@ -7,7 +7,16 @@ import EditCellModal from "./EditCellModal";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteCellModal from "./DeleteCellModal";
 
-function EditOrDeleteRecordModal({ editOrDeleteOpen, handleCloseEditOrDelete, setFetchEdit, setFetchDelete }) {
+function EditOrDeleteModal({
+  editOrDeleteRecordOpen,
+  handleCloseEditOrDeleteRecord,
+  setFetchEditRecord,
+  setFetchDeleteRecord,
+}) {
+  //   editOrDeleteRecordOpen = { editOrDeleteRecordOpen };
+  //   handleCloseEditOrDeleteRecord = { handleCloseEditOrDeleteRecord };
+  //   setFetchEditRecord = { setFetchEditRecord };
+  //   setFetchDeleteRecord = { setFetchDeleteRecord };
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
@@ -15,13 +24,13 @@ function EditOrDeleteRecordModal({ editOrDeleteOpen, handleCloseEditOrDelete, se
 
   const handleOpneEdit = () => setOpenEdit(true);
   const handleCloseEdit = () => {
-    handleCloseEditOrDelete();
+    handleCloseEditOrDeleteRecord();
     setOpenEdit(false);
   };
 
   const handleOpneDelete = () => setOpenDelete(true);
   const handleCloseDelete = () => {
-    handleCloseEditOrDelete();
+    handleCloseEditOrDeleteRecord();
     setOpenDelete(false);
   };
   const body = (
@@ -38,13 +47,11 @@ function EditOrDeleteRecordModal({ editOrDeleteOpen, handleCloseEditOrDelete, se
         p: 4,
       }}
     >
-      {/* Add this Box component */}
       <Box sx={{ position: "relative", display: "flex", justifyContent: "flex-end" }}>
-        <IconButton edge="end" color="inherit" onClick={handleCloseEditOrDelete} aria-label="close">
+        <IconButton edge="end" color="inherit" onClick={handleCloseEditOrDeleteRecord} aria-label="close">
           <CloseIcon />
         </IconButton>
       </Box>
-      {/* End of added Box component */}
 
       <Box
         sx={{
@@ -64,7 +71,7 @@ function EditOrDeleteRecordModal({ editOrDeleteOpen, handleCloseEditOrDelete, se
             }}
             sx={{ width: "100%" }}
           >
-            Edit Cell
+            Edit Record
           </Button>
         </Box>
         <Box sx={{ width: "95%" }}>
@@ -83,26 +90,26 @@ function EditOrDeleteRecordModal({ editOrDeleteOpen, handleCloseEditOrDelete, se
         </Box>
       </Box>
 
-      <EditCellModal
+      {/* <EditRecordModal
         openEdit={openEdit}
         handleCloseEdit={handleCloseEdit}
         selectedCell={selectedCell}
-        setFetchEdit={setFetchEdit}
+        setFetchEdit={setFetchEditRecord}
       />
-      <DeleteCellModal
+      <DeleteRecordModal
         openDelete={openDelete}
         handleCloseDelete={handleCloseDelete}
         selectedCell={selectedCell}
-        setFetchDelete={setFetchDelete}
-      />
+        setFetchDelete={setFetchDeleteRecord}
+      /> */}
     </Box>
   );
 
   return (
-    <Modal open={editOrDeleteOpen} onClose={handleCloseEditOrDelete} aria-labelledby="edit-or-delete-modal">
+    <Modal open={editOrDeleteRecordOpen} onClose={handleCloseEditOrDeleteRecord} aria-labelledby="edit-or-delete-modal">
       {body}
     </Modal>
   );
 }
 
-export default EditOrDeleteRecordModal;
+export default EditOrDeleteModal;

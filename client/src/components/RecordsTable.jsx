@@ -9,6 +9,7 @@ import {
   Paper,
   Button,
   Tooltip,
+  PaginationItem,
 } from "@mui/material";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
@@ -20,6 +21,14 @@ import { useDispatch } from "react-redux";
 import { selectRecordAction, selectCellAction } from "../redux/actions";
 import AddRecordModal from "./Modal/AddRecordModal";
 import EditOrDeleteModal from "./Modal/EditOrDeleteModal";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Badge from "@mui/material/Badge";
+import Stack from "@mui/material/Stack";
+import TableChartIcon from "@mui/icons-material/TableChart";
+import EditOrDeleteRecordModal from "./Modal/EditOrDeleteModal";
 
 function RecordsTable() {
   const [rows, setRows] = useState([]);
@@ -82,7 +91,29 @@ function RecordsTable() {
     setOpenAdd(false);
   };
 
-  /* ------ EDIT & DELETE COMMON VARIABLES -------*/
+  function ColorBadge({ totalRecords }) {
+    return (
+      <Tooltip title="Total Rows" placement="right">
+        <Stack spacing={2} direction="row">
+          <Badge
+            badgeContent={totalRecords}
+            color="secondary"
+            sx={{
+              cursor: "pointer",
+              transition: "transform 0.3s ease-in-out",
+              "&:hover": {
+                transform: "scale(1.1)",
+              },
+            }}
+          >
+            <TableChartIcon color="action" />
+          </Badge>
+        </Stack>
+      </Tooltip>
+    );
+  }
+
+  /* ------ EDIT & DELETE CELL SHARED VARIABLES -------*/
   const [editOrDeleteOpen, setEditOrDeleteOpen] = useState(false);
 
   const handleOpenEditOrDelete = () => {
@@ -93,16 +124,36 @@ function RecordsTable() {
     setEditOrDeleteOpen(false);
   };
 
-  /* ------ EDIT CELL -------*/
+  /* EDIT CELL -------*/
   const [fetchEdit, setFetchEdit] = useState(false);
 
-  /* ------ DELETE CELL -------*/
+  /* DELETE CELL -------*/
   const [fetchDelete, setFetchDelete] = useState(false);
+
+  /* ------ EDIT & DELETE RECORD SHARED VARIABLES -------*/
+  const [editOrDeleteRecordOpen, setEditOrDeleteRecordOpen] = useState(false);
+
+  const handleOpenEditOrDeleteRecord = () => {
+    setEditOrDeleteRecordOpen(true);
+  };
+
+  const handleCloseEditOrDeleteRecord = () => {
+    setEditOrDeleteRecordOpen(false);
+  };
+
+  /* ------ EDIT CELL -------*/
+  const [fetchEditRecord, setFetchEditRecord] = useState(false);
+
+  /* ------ DELETE CELL -------*/
+  const [fetchDeleteRecord, setFetchDeleteRecord] = useState(false);
 
   useEffect(() => {
     fetchRecords();
     setFetchEdit(false);
-  }, [fetchEdit, fetchDelete]);
+    setFetchDelete(false);
+    setFetchEditRecord(false);
+    setFetchDeleteRecord(false);
+  }, [fetchEdit, fetchDelete, fetchEditRecord, fetchDeleteRecord]);
 
   return (
     <Box
@@ -119,6 +170,42 @@ function RecordsTable() {
           width: isMobile ? "90%" : "70%",
         }}
       >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 2,
+          }}
+        >
+          <Box>
+            <Box display="flex" alignItems="center">
+              <AddRecordModal
+                openAdd={openAdd}
+                handleCloseAdd={handleCloseAdd}
+                handleOpenAdd={handleOpenAdd}
+                newRecord={newRecord}
+                setNewRecord={setNewRecord}
+                columnNameAdd={columnNameAdd}
+                setColumnNameAdd={setColumnNameAdd}
+              />
+              <Tooltip title="Download table" placement="right">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    marginLeft: 1,
+                    backgroundColor: "orangeRed",
+                  }}
+                >
+                  <DownloadIcon />
+                </Button>
+              </Tooltip>
+            </Box>
+          </Box>
+
+          <ColorBadge totalRecords={totalRecords} />
+        </Box>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
@@ -166,7 +253,12 @@ function RecordsTable() {
                 <TableRow
                   key={rowIndex}
                   sx={{
-                    backgroundColor: selectedRow === rowIndex ? "orangered" : "inherit",
+                    backgroundColor:
+                      selectedRow === rowIndex
+                        ? "orangered"
+                        : rowIndex % 2 === 0
+                        ? "rgba(0,0,0,0.3)"
+                        : "rgba(0,0,0,0.1)",
                   }}
                 >
                   <TableCell
@@ -183,6 +275,7 @@ function RecordsTable() {
                     onClick={() => {
                       dispatch(selectRecordAction(row));
                       setSelectedRow(selectedRow === rowIndex ? null : rowIndex);
+                      handleOpenEditOrDeleteRecord();
                     }}
                   >
                     {row._id}
@@ -291,63 +384,27 @@ function RecordsTable() {
             </TableBody>
           </Table>
         </TableContainer>
+
         <Box mt={4} display="flex" justifyContent="center">
-          <Pagination
-            count={Math.ceil(totalRecords / rowsPerPage)}
-            page={page}
-            onChange={handlePageChange}
-            color="primary"
-            shape="rounded"
-            size="large"
-          />
+          <IconButton disabled={page === 1} onClick={(event) => handlePageChange(event, page - 1)}>
+            <NavigateBeforeIcon />
+          </IconButton>
+          <Typography sx={{ alignSelf: "center" }}>{page}</Typography>
+          <IconButton
+            disabled={page === Math.ceil(totalRecords / rowsPerPage)}
+            onClick={(event) => handlePageChange(event, page + 1)}
+          >
+            <NavigateNextIcon />
+          </IconButton>
         </Box>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "2%",
-          marginLeft: 5,
-        }}
-      >
-        <AddRecordModal
-          openAdd={openAdd}
-          handleCloseAdd={handleCloseAdd}
-          handleOpenAdd={handleOpenAdd}
-          newRecord={newRecord}
-          setNewRecord={setNewRecord}
-          columnNameAdd={columnNameAdd}
-          setColumnNameAdd={setColumnNameAdd}
-        />
+      <EditOrDeleteRecordModal
+        editOrDeleteRecordOpen={editOrDeleteRecordOpen}
+        handleCloseEditOrDeleteRecord={handleCloseEditOrDeleteRecord}
+        setFetchEditRecord={setFetchEditRecord}
+        setFetchDeleteRecord={setFetchDeleteRecord}
+      />
 
-        <Divider orientation="horizontal" sx={{ width: "100%", marginBottom: 2 }} />
-        <Tooltip title="Download table" placement="right-end">
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{
-              marginBottom: 2,
-              backgroundColor: "#90caf9",
-              minWidth: "80%",
-            }}
-          >
-            <DownloadIcon />
-          </Button>
-        </Tooltip>
-        <Tooltip title="Delete table" placement="right-end">
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "orangeRed",
-              minWidth: "100%",
-            }}
-          >
-            <DeleteIcon />
-          </Button>
-        </Tooltip>
-      </Box>
       <EditOrDeleteModal
         editOrDeleteOpen={editOrDeleteOpen}
         handleCloseEditOrDelete={handleCloseEditOrDelete}

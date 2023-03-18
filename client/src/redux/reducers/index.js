@@ -1,4 +1,4 @@
-import { SELECT_RECORD, ADD_RECORD, SELECT_CELL, EDIT_CELL, DELETE_CELL } from "../actions";
+import { SELECT_RECORD, ADD_RECORD, SELECT_CELL, EDIT_CELL, DELETE_CELL, DELETE_RECORD } from "../actions";
 
 const initialState = {
   records: {
@@ -50,7 +50,7 @@ const mainReducer = (state = initialState, action) => {
       };
 
     case DELETE_CELL:
-      const updatedAfterDeleteRecords = state.records.recordsArray.map((record) =>
+      const updatedAfterDeleteCell = state.records.recordsArray.map((record) =>
         record._id === action.payload_id ? action.payload : record
       );
 
@@ -58,9 +58,20 @@ const mainReducer = (state = initialState, action) => {
         ...state,
         records: {
           ...state.records,
-          recordsArray: updatedAfterDeleteRecords,
+          recordsArray: updatedAfterDeleteCell,
         },
       };
+
+    case DELETE_RECORD:
+      const updatedAfterDeleteRecord = state.records.recordsArray.filter((record) => record._id !== action.payload);
+      return {
+        ...state,
+        records: {
+          ...state.records,
+          recordsArray: updatedAfterDeleteRecord,
+        },
+      };
+
     default:
       return state;
   }

@@ -1,24 +1,21 @@
-import React from "react";
+import { Button, Grow, IconButton, Modal, Typography } from "@mui/material";
+import { Box } from "@mui/system";
 import { useDispatch } from "react-redux";
-import { Button, Box, Modal, Typography, IconButton } from "@mui/material";
+import { deleteRecordAction } from "../../redux/actions";
 import CloseIcon from "@mui/icons-material/Close";
-import { deleteCellAction } from "../../redux/actions";
-import Grow from "@mui/material/Grow";
 
-function DeleteCellModal({ openDelete, handleCloseDelete, selectedCell, setFetchDelete }) {
-  const id = selectedCell._id;
-  const columnName = Object.keys(selectedCell)[1];
-  const cellValue = selectedCell[columnName];
+const DeleteRecordModal = (openDeleteRecord, handleCloseDeleteRecord, selectedRecord, setFetchDeleteRecord) => {
+  const id = selectedRecord._id;
+
   const dispatch = useDispatch();
 
-  const handleDelete = () => {
-    dispatch(deleteCellAction(id, columnName));
-    setFetchDelete(true);
-    handleCloseDelete();
+  const handleDeleteRecord = () => {
+    dispatch(deleteRecordAction(id));
+    setFetchDeleteRecord(true);
+    handleCloseDeleteRecord();
   };
-
   const body = (
-    <Grow in={openDelete}>
+    <Grow in={openDeleteRecord}>
       <Box
         sx={{
           width: "90%",
@@ -40,27 +37,23 @@ function DeleteCellModal({ openDelete, handleCloseDelete, selectedCell, setFetch
           }}
         >
           <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-            <IconButton edge="end" color="inherit" onClick={handleCloseDelete} aria-label="close">
+            <IconButton edge="end" color="inherit" onClick={handleCloseDeleteRecord} aria-label="close">
               <CloseIcon />
             </IconButton>
           </Box>
 
           <Typography variant="h6" sx={{ marginBottom: 3, color: "rgba(255,255,255,0.4)" }}>
-            Are you sure you want to delete the value{" "}
+            Are you sure you want to delete the record{" "}
             <Box component="span" sx={{ color: "#90caf9" }}>
-              "{cellValue}"
+              "{id}"
             </Box>{" "}
-            from column{" "}
-            <Box component="span" sx={{ color: "#90caf9" }}>
-              "{columnName}"
-            </Box>
             ?
           </Typography>
           <Box mt={2} display="flex" justifyContent="space-between" width="100%">
-            <Button variant="contained" color="secondary" onClick={handleDelete}>
+            <Button variant="contained" color="secondary" onClick={handleDeleteRecord}>
               Delete
             </Button>
-            <Button variant="contained" onClick={handleCloseDelete}>
+            <Button variant="contained" onClick={handleCloseDeleteRecord}>
               Cancel
             </Button>
           </Box>
@@ -70,10 +63,9 @@ function DeleteCellModal({ openDelete, handleCloseDelete, selectedCell, setFetch
   );
 
   return (
-    <Modal open={openDelete} onClose={handleCloseDelete} aria-labelledby="delete-record-modal">
+    <Modal open={openDeleteRecord} onClose={handleCloseDeleteRecord} aria-labelledby="delete-record-modal">
       {body}
     </Modal>
   );
-}
-
-export default DeleteCellModal;
+};
+export default DeleteRecordModal;

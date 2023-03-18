@@ -78,24 +78,16 @@ function AddRecordModal({
   );
 
   return (
-    <div>
-      <Tooltip title="Add record" placement="right-end">
-        <Button
-          onClick={handleOpenAdd}
-          variant="contained"
-          color="primary"
-          sx={{
-            marginBottom: 2,
-            minWidth: "80%",
-          }}
-        >
+    <Box display="flex" alignItems="center">
+      <Tooltip title="Add record" placement="left">
+        <Button onClick={handleOpenAdd} variant="contained" color="primary">
           <AddIcon />
         </Button>
       </Tooltip>
       <Modal open={openAdd} onClose={handleCloseAdd} aria-labelledby="add-record-modal">
         {body}
       </Modal>
-    </div>
+    </Box>
   );
 }
 

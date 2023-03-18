@@ -104,4 +104,20 @@ tableRoutes.delete("/:id/delete-cell", async (req, res, next) => {
   }
 });
 
+tableRoutes.delete("/:id/delete-record", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const record = await Table.findByIdAndRemove(id);
+
+    if (!record) {
+      return res.status(404).send({ message: `Record with id: ${id} not found` });
+    }
+
+    res.send({ message: `Record successfully deleted!`, deletedRecordId: id });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 export default tableRoutes;

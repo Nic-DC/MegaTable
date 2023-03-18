@@ -3,6 +3,7 @@ export const SELECT_CELL = `SELECT_CELL`;
 export const ADD_RECORD = `ADD_RECORD`;
 export const EDIT_CELL = `EDIT_CELL`;
 export const DELETE_CELL = `DELETE_CELL`;
+export const DELETE_RECORD = `DELETE_RECORD`;
 
 export const selectRecordAction = (record) => {
   return {
@@ -87,5 +88,25 @@ export const deleteCellAction = (id, columnName) => async (dispatch) => {
     }
   } catch (error) {
     console.error("Error deleting cell:", error);
+  }
+};
+
+export const deleteRecordAction = (id) => async (dispatch) => {
+  try {
+    const response = await fetch(`http://localhost:3010/table/${id}/delete-record`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch({
+        type: DELETE_RECORD,
+        payload: data.deletedRecordId,
+      });
+    } else {
+      console.error("Error deleting record:", response.status);
+    }
+  } catch (error) {
+    console.error("Error deleting the record");
   }
 };
