@@ -1,32 +1,31 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-
-import { Modal, Box, TextField, Button, IconButton, Tooltip } from "@mui/material";
+import { Button, Box, Modal, TextField, IconButton, Tooltip } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import { addRecordAction } from "../../redux/actions";
 
-function AddRecordModal({
-  openAdd,
-  setOpenAdd,
-  handleOpenAdd,
-  handleCloseAdd,
-  newRecord,
-  setNewRecord,
-  columnNameAdd,
-  setColumnNameAdd,
-}) {
-  console.log("NEW RECORD: ", newRecord);
+const AddRecordModal = ({ openAddRecord, handleCloseAddRecord, handleOpenAddRecord, newRecord, setNewRecord }) => {
   const dispatch = useDispatch();
 
   const handleSave = () => {
-    dispatch(addRecordAction(columnNameAdd, newRecord));
-    handleCloseAdd();
+    dispatch(addRecordAction(newRecord));
+    setNewRecord({
+      column1: "",
+      column2: "",
+      column3: "",
+      column4: "",
+      column5: "",
+    });
+    handleCloseAddRecord();
   };
-
   const handleDiscard = () => {
     setNewRecord("");
-    handleCloseAdd();
+    handleCloseAddRecord();
+  };
+
+  const handleInputChange = (e, columnName) => {
+    setNewRecord({ ...newRecord, [columnName]: e.target.value });
   };
 
   const body = (
@@ -46,26 +45,20 @@ function AddRecordModal({
       }}
     >
       <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-        <IconButton edge="end" color="inherit" onClick={handleCloseAdd} aria-label="close">
+        <IconButton edge="end" color="inherit" onClick={handleCloseAddRecord} aria-label="close">
           <CloseIcon />
         </IconButton>
       </Box>
-      <TextField
-        label="Column Name"
-        value={columnNameAdd}
-        onChange={(e) => setColumnNameAdd(e.target.value)}
-        autoFocus
-        fullWidth
-        sx={{ marginBottom: 3 }}
-      />
-      <TextField
-        label="New Record"
-        value={newRecord}
-        onChange={(e) => setNewRecord(e.target.value)}
-        // autoFocus
-        fullWidth
-      />
-
+      {["column1", "column2", "column3", "column4", "column5"].map((columnName) => (
+        <TextField
+          key={columnName}
+          label={`Column ${columnName}`}
+          value={newRecord[columnName]}
+          onChange={(e) => handleInputChange(e, columnName)}
+          fullWidth
+          sx={{ marginBottom: 3 }}
+        />
+      ))}
       <Box mt={2} display="flex" justifyContent="space-between" width="100%">
         <Button variant="contained" color="primary" onClick={handleSave}>
           Save record
@@ -80,15 +73,15 @@ function AddRecordModal({
   return (
     <Box display="flex" alignItems="center">
       <Tooltip title="Add record" placement="left">
-        <Button onClick={handleOpenAdd} variant="contained" color="primary">
+        <Button onClick={handleOpenAddRecord} variant="contained" color="primary">
           <AddIcon />
         </Button>
       </Tooltip>
-      <Modal open={openAdd} onClose={handleCloseAdd} aria-labelledby="add-record-modal">
+      <Modal open={openAddRecord} onClose={handleCloseAddRecord} aria-labelledby="add-record-modal">
         {body}
       </Modal>
     </Box>
   );
-}
+};
 
 export default AddRecordModal;

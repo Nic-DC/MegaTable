@@ -27,6 +27,35 @@ tableRoutes.post("/", async (req, res, next) => {
   }
 });
 
+tableRoutes.post("/record", async (req, res, next) => {
+  try {
+    const { column1, column2, column3, column4, column5 } = req.body;
+
+    if (
+      column1 === undefined ||
+      column2 === undefined ||
+      column3 === undefined ||
+      column4 === undefined ||
+      column5 === undefined
+    ) {
+      return res.status(400).send("Missing values for one or more columns");
+    }
+
+    const newRow = new Table({
+      column1,
+      column2,
+      column3,
+      column4,
+      column5,
+    });
+
+    await newRow.save();
+    res.status(201).send(newRow);
+  } catch (error) {
+    next(error);
+  }
+});
+
 /* --- Read all records --- */
 tableRoutes.get("/", async (req, res, next) => {
   try {

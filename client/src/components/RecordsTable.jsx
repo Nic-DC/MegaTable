@@ -19,7 +19,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Divider from "@mui/material/Divider";
 import { useDispatch } from "react-redux";
 import { selectRecordAction, selectCellAction } from "../redux/actions";
-import AddRecordModal from "./Modal/AddRecordModal";
+import AddCellModal from "./Modal/AddCellModal";
 import EditOrDeleteModal from "./Modal/EditOrDeleteModal";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -29,6 +29,7 @@ import Badge from "@mui/material/Badge";
 import Stack from "@mui/material/Stack";
 import TableChartIcon from "@mui/icons-material/TableChart";
 import EditOrDeleteRecordModal from "./Modal/EditOrDeleteRecordModal";
+import AddRecordModal from "./Modal/AddRecordModal";
 
 function RecordsTable() {
   const [rows, setRows] = useState([]);
@@ -75,9 +76,9 @@ function RecordsTable() {
     }
   };
 
-  /* ------ ADD RECORD -------*/
+  /* ------ ADD CELL -------*/
   const [openAdd, setOpenAdd] = useState(false);
-  const [newRecord, setNewRecord] = useState("");
+  const [newCell, setNewCell] = useState("");
   const [columnNameAdd, setColumnNameAdd] = useState("");
 
   const handleOpenAdd = () => {
@@ -86,9 +87,32 @@ function RecordsTable() {
   };
 
   const handleCloseAdd = () => {
-    setNewRecord("");
+    setNewCell("");
     setColumnNameAdd("");
     setOpenAdd(false);
+  };
+
+  const [fetchAdd, setFetchAdd] = useState(false);
+
+  /* ------ ADD RECORD -------*/
+  const [openAddRecord, setOpenAddRecord] = useState(false);
+  const [newRecord, setNewRecord] = useState({
+    column1: "",
+    column2: "",
+    column3: "",
+    column4: "",
+    column5: "",
+  });
+
+  const handleOpenAddRecord = () => {
+    console.log("POST modal open");
+    setOpenAddRecord(true);
+  };
+
+  const handleCloseAddRecord = () => {
+    setNewRecord("");
+
+    setOpenAddRecord(false);
   };
 
   function ColorBadge({ totalRecords }) {
@@ -148,12 +172,13 @@ function RecordsTable() {
   const [fetchDeleteRecord, setFetchDeleteRecord] = useState(false);
 
   useEffect(() => {
+    setFetchAdd(false);
     fetchRecords();
     setFetchEdit(false);
     setFetchDelete(false);
     setFetchEditRecord(false);
     setFetchDeleteRecord(false);
-  }, [fetchEdit, fetchDelete, fetchEditRecord, fetchDeleteRecord]);
+  }, [fetchAdd, fetchEdit, fetchDelete, fetchEditRecord, fetchDeleteRecord]);
 
   return (
     <Box
@@ -180,15 +205,24 @@ function RecordsTable() {
         >
           <Box>
             <Box display="flex" alignItems="center">
-              <AddRecordModal
+              <AddCellModal
                 openAdd={openAdd}
                 handleCloseAdd={handleCloseAdd}
                 handleOpenAdd={handleOpenAdd}
-                newRecord={newRecord}
-                setNewRecord={setNewRecord}
+                newCell={newCell}
+                setNewCell={setNewCell}
                 columnNameAdd={columnNameAdd}
                 setColumnNameAdd={setColumnNameAdd}
+                setFetchAdd={setFetchAdd}
               />
+              <AddRecordModal
+                openAddRecord={openAddRecord}
+                handleCloseAddRecord={handleCloseAddRecord}
+                handleOpenAddRecord={handleOpenAddRecord}
+                newRecord={newRecord}
+                setNewRecord={setNewRecord}
+              />
+
               <Tooltip title="Download table" placement="right">
                 <Button
                   variant="contained"

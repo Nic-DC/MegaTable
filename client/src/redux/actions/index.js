@@ -1,5 +1,6 @@
 export const SELECT_RECORD = `SELECT_RECORD`;
 export const SELECT_CELL = `SELECT_CELL`;
+export const ADD_CELL = `ADD_CELL`;
 export const ADD_RECORD = `ADD_RECORD`;
 export const EDIT_CELL = `EDIT_CELL`;
 export const EDIT_RECORD = `EDIT_RECORD`;
@@ -20,7 +21,7 @@ export const selectCellAction = (cell) => {
   };
 };
 
-export const addRecordAction = (columnName, value) => async (dispatch) => {
+export const addCellAction = (columnName, value) => async (dispatch) => {
   try {
     const response = await fetch("http://localhost:3010/table", {
       method: "POST",
@@ -33,12 +34,36 @@ export const addRecordAction = (columnName, value) => async (dispatch) => {
     if (response.ok) {
       const data = await response.json();
       dispatch({
-        type: ADD_RECORD,
+        type: ADD_CELL,
         payload: data,
       });
     } else {
-      console.error("Error adding record:", response.status);
+      console.error("Error adding cell:", response.status);
     }
+  } catch (error) {
+    console.error("Error adding cell:", error);
+  }
+};
+
+export const addRecordAction = (newRecord) => async (dispatch) => {
+  try {
+    const response = await fetch("http://localhost:3010/table/record", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newRecord),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}`);
+    }
+
+    const addedRecord = await response.json();
+    dispatch({
+      type: ADD_RECORD,
+      payload: addedRecord,
+    });
   } catch (error) {
     console.error("Error adding record:", error);
   }
