@@ -7,6 +7,8 @@ export const EDIT_RECORD = `EDIT_RECORD`;
 export const DELETE_CELL = `DELETE_CELL`;
 export const DELETE_RECORD = `DELETE_RECORD`;
 
+const endpoint = process.env.REACT_APP_BE_URL;
+
 export const selectRecordAction = (record) => {
   return {
     type: SELECT_RECORD,
@@ -23,7 +25,7 @@ export const selectCellAction = (cell) => {
 
 export const addCellAction = (columnName, value) => async (dispatch) => {
   try {
-    const response = await fetch("http://localhost:3010/table", {
+    const response = await fetch(`${endpoint}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +49,7 @@ export const addCellAction = (columnName, value) => async (dispatch) => {
 
 export const addRecordAction = (newRecord) => async (dispatch) => {
   try {
-    const response = await fetch("http://localhost:3010/table/record", {
+    const response = await fetch(`${endpoint}/record`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +73,7 @@ export const addRecordAction = (newRecord) => async (dispatch) => {
 
 export const editCellAction = (id, columnName, newValue) => async (dispatch) => {
   try {
-    const response = await fetch(`http://localhost:3010/table/${id}/update-cell`, {
+    const response = await fetch(`${endpoint}/${id}/update-cell`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -95,7 +97,7 @@ export const editCellAction = (id, columnName, newValue) => async (dispatch) => 
 
 export const editRecordAction = (id, updatedRecord) => async (dispatch) => {
   try {
-    const response = await fetch(`http://localhost:3010/table/${id}/update-record`, {
+    const response = await fetch(`${endpoint}/${id}/update-record`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -119,7 +121,7 @@ export const editRecordAction = (id, updatedRecord) => async (dispatch) => {
 
 export const deleteCellAction = (id, columnName) => async (dispatch) => {
   try {
-    const response = await fetch(`http://localhost:3010/table/${id}/delete-cell`, {
+    const response = await fetch(`${endpoint}/${id}/delete-cell`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -143,7 +145,7 @@ export const deleteCellAction = (id, columnName) => async (dispatch) => {
 
 export const deleteRecordAction = (id) => async (dispatch) => {
   try {
-    const response = await fetch(`http://localhost:3010/table/${id}/delete-record`, {
+    const response = await fetch(`${endpoint}/${id}/delete-record`, {
       method: "DELETE",
     });
 

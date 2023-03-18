@@ -1,7 +1,9 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, Tabs, Tab } from "@mui/material";
+import { AppBar, Toolbar, Typography, IconButton, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import Logo from "./logo/Logo";
+import HomeIcon from "@mui/icons-material/Home";
+import TableChartIcon from "@mui/icons-material/TableChart";
 
 const Navbar = () => {
   return (
@@ -12,12 +14,14 @@ const Navbar = () => {
             <Logo />
           </Link>
         </Typography>
-        <Tabs value={false} aria-label="nav tabs example">
-          <Tab label="Home" component={Link} to="/" style={{ textDecoration: "none", color: "inherit" }} />
-          <Tab label="Table" component={Link} to="/table" style={{ textDecoration: "none", color: "inherit" }} />
-          <Tab label="PDF" component={Link} to="/pdf" style={{ textDecoration: "none", color: "inherit" }} />
-          <Tab label="Login" component={Link} to="/login" style={{ textDecoration: "none", color: "inherit" }} />
-        </Tabs>
+        <IconButton sx={{ marginRight: 1 }} edge="end" color="inherit" aria-label="home" component={Link} to="/">
+          <HomeIcon />
+        </IconButton>
+        <Tooltip title="Generate table">
+          <IconButton edge="end" color="inherit" aria-label="generate table" component={Link} to="/table">
+            <TableChartIcon />
+          </IconButton>
+        </Tooltip>
       </Toolbar>
     </AppBar>
   );

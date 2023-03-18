@@ -30,12 +30,17 @@ import Stack from "@mui/material/Stack";
 import TableChartIcon from "@mui/icons-material/TableChart";
 import EditOrDeleteRecordModal from "./Modal/EditOrDeleteRecordModal";
 import AddRecordModal from "./Modal/AddRecordModal";
+import LastPageIcon from "@mui/icons-material/LastPage";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import DescriptionIcon from "@mui/icons-material/Description";
 
 function RecordsTable() {
   const [rows, setRows] = useState([]);
   const theme = useTheme();
   const [page, setPage] = useState(1);
   const [totalRecords, setTotalRecords] = useState(0);
+
+  const endpoint = process.env.REACT_APP_BE_URL;
 
   const [selectedRow, setSelectedRow] = useState(null);
   const [selectedColumn, setSelectedColumn] = useState(null);
@@ -53,7 +58,7 @@ function RecordsTable() {
 
   const fetchRecords = async (page = 1) => {
     try {
-      const response = await fetch(`http://localhost:3010/table?page=${page}`);
+      const response = await fetch(`${endpoint}?page=${page}`);
 
       if (response.status === 200) {
         const data = await response.json();
@@ -128,9 +133,32 @@ function RecordsTable() {
               "&:hover": {
                 transform: "scale(1.1)",
               },
+              marginRight: 3,
             }}
           >
             <TableChartIcon color="action" />
+          </Badge>
+        </Stack>
+      </Tooltip>
+    );
+  }
+
+  function TotalPagesBadge({ totalPages }) {
+    return (
+      <Tooltip title="Total Pages" placement="right">
+        <Stack spacing={2} direction="row">
+          <Badge
+            badgeContent={totalPages}
+            color="secondary"
+            sx={{
+              cursor: "pointer",
+              transition: "transform 0.3s ease-in-out",
+              "&:hover": {
+                transform: "scale(1.1)",
+              },
+            }}
+          >
+            <DescriptionIcon color="action" />
           </Badge>
         </Stack>
       </Tooltip>
@@ -237,8 +265,10 @@ function RecordsTable() {
               </Tooltip>
             </Box>
           </Box>
-
-          <ColorBadge totalRecords={totalRecords} />
+          <Box display="flex" alignItems="center">
+            <ColorBadge totalRecords={totalRecords} />
+            <TotalPagesBadge totalPages={Math.ceil(totalRecords / rowsPerPage)} />{" "}
+          </Box>
         </Box>
         <TableContainer component={Paper}>
           <Table>
@@ -419,17 +449,42 @@ function RecordsTable() {
           </Table>
         </TableContainer>
 
-        <Box mt={4} display="flex" justifyContent="center">
-          <IconButton disabled={page === 1} onClick={(event) => handlePageChange(event, page - 1)}>
-            <NavigateBeforeIcon />
-          </IconButton>
+        <Box mt={2} display="flex" justifyContent="center">
+          <Tooltip title="First page">
+            <span>
+              <IconButton disabled={page === 1} onClick={(event) => handlePageChange(event, 1)}>
+                <FirstPageIcon />
+              </IconButton>
+            </span>
+          </Tooltip>
+          <Tooltip title="Previous page">
+            <span>
+              <IconButton disabled={page === 1} onClick={(event) => handlePageChange(event, page - 1)}>
+                <NavigateBeforeIcon />
+              </IconButton>
+            </span>
+          </Tooltip>
           <Typography sx={{ alignSelf: "center" }}>{page}</Typography>
-          <IconButton
-            disabled={page === Math.ceil(totalRecords / rowsPerPage)}
-            onClick={(event) => handlePageChange(event, page + 1)}
-          >
-            <NavigateNextIcon />
-          </IconButton>
+          <Tooltip title="Next page">
+            <span>
+              <IconButton
+                disabled={page === Math.ceil(totalRecords / rowsPerPage)}
+                onClick={(event) => handlePageChange(event, page + 1)}
+              >
+                <NavigateNextIcon />
+              </IconButton>
+            </span>
+          </Tooltip>
+          <Tooltip title="Last page">
+            <span>
+              <IconButton
+                disabled={page === Math.ceil(totalRecords / rowsPerPage)}
+                onClick={(event) => handlePageChange(event, Math.ceil(totalRecords / rowsPerPage))}
+              >
+                <LastPageIcon />
+              </IconButton>
+            </span>
+          </Tooltip>
         </Box>
       </Box>
       <EditOrDeleteRecordModal

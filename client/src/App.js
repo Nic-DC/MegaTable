@@ -3,6 +3,7 @@ import RecordsTable from "./components/RecordsTable";
 import Navbar from "./components/Navbar";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Home from "./components/Home";
 
 const theme = createTheme({
   palette: {
@@ -17,7 +18,8 @@ function App() {
         <CssBaseline />
         <Navbar />
         <Routes>
-          <Route path="/" element={<RecordsTable />} />
+          <Route path="/table" element={<RecordsTable />} />
+          <Route path="/" element={<Home />} />
           {/* Add other routes for table, pdf, and login here */}
         </Routes>
       </Router>

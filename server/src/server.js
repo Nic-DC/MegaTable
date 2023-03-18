@@ -5,12 +5,28 @@ import mongoose from "mongoose";
 import { badRequestHandler, genericErrorHandler, notFoundHandler } from "./errorHandlers.js";
 import tableRoutes from "./api/tableRoutes.js";
 import insertRecordsRoute from "./api/insertRecords.js";
+import createHttpError from "http-errors";
 
 const server = express();
 const port = process.env.PORT || 3010;
 
+const { FE_DEV_URL, FE_PROD_URL } = process.env;
+const whitelist = [FE_DEV_URL, FE_PROD_URL];
+
+const corsOpts = {
+  origin: (origin, corsNext) => {
+    console.log("CURRENT ORIGIN: ", origin);
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      corsNext(null, true);
+    } else {
+      corsNext(createHttpError(400, `Origin ${origin} is not in the whitelist!`));
+    }
+  },
+};
+
 // ******************************* MIDDLEWARES ****************************************
-server.use(cors());
+// server.use(cors());
+server.use(cors(corsOpts));
 server.use(express.json());
 
 // ******************************** ENDPOINTS *****************************************
