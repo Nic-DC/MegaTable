@@ -28,7 +28,7 @@ import Typography from "@mui/material/Typography";
 import Badge from "@mui/material/Badge";
 import Stack from "@mui/material/Stack";
 import TableChartIcon from "@mui/icons-material/TableChart";
-import EditOrDeleteRecordModal from "./Modal/EditOrDeleteModal";
+import EditOrDeleteRecordModal from "./Modal/EditOrDeleteRecordModal";
 
 function RecordsTable() {
   const [rows, setRows] = useState([]);

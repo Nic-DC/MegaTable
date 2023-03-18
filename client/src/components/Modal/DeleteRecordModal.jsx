@@ -4,18 +4,18 @@ import { useDispatch } from "react-redux";
 import { deleteRecordAction } from "../../redux/actions";
 import CloseIcon from "@mui/icons-material/Close";
 
-const DeleteRecordModal = (openDeleteRecord, handleCloseDeleteRecord, selectedRecord, setFetchDeleteRecord) => {
+const DeleteRecordModal = ({ openDelete, handleCloseDelete, selectedRecord, setFetchDelete }) => {
   const id = selectedRecord._id;
 
   const dispatch = useDispatch();
 
   const handleDeleteRecord = () => {
     dispatch(deleteRecordAction(id));
-    setFetchDeleteRecord(true);
-    handleCloseDeleteRecord();
+    setFetchDelete(true);
+    handleCloseDelete();
   };
   const body = (
-    <Grow in={openDeleteRecord}>
+    <Grow in={openDelete}>
       <Box
         sx={{
           width: "90%",
@@ -37,7 +37,7 @@ const DeleteRecordModal = (openDeleteRecord, handleCloseDeleteRecord, selectedRe
           }}
         >
           <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-            <IconButton edge="end" color="inherit" onClick={handleCloseDeleteRecord} aria-label="close">
+            <IconButton edge="end" color="inherit" onClick={handleCloseDelete} aria-label="close">
               <CloseIcon />
             </IconButton>
           </Box>
@@ -53,7 +53,7 @@ const DeleteRecordModal = (openDeleteRecord, handleCloseDeleteRecord, selectedRe
             <Button variant="contained" color="secondary" onClick={handleDeleteRecord}>
               Delete
             </Button>
-            <Button variant="contained" onClick={handleCloseDeleteRecord}>
+            <Button variant="contained" onClick={handleCloseDelete}>
               Cancel
             </Button>
           </Box>
@@ -63,7 +63,7 @@ const DeleteRecordModal = (openDeleteRecord, handleCloseDeleteRecord, selectedRe
   );
 
   return (
-    <Modal open={openDeleteRecord} onClose={handleCloseDeleteRecord} aria-labelledby="delete-record-modal">
+    <Modal open={openDelete} onClose={handleCloseDelete} aria-labelledby="delete-record-modal">
       {body}
     </Modal>
   );

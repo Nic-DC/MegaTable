@@ -3,24 +3,22 @@ import { useSelector } from "react-redux";
 import { Box, Button, IconButton, Modal } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditCellModal from "./EditCellModal";
-import CloseIcon from "@mui/icons-material/Close";
-import DeleteCellModal from "./DeleteCellModal";
 
-function EditOrDeleteModal({
+import CloseIcon from "@mui/icons-material/Close";
+
+// import EditRecordModal from "./EditRecordModal";
+import DeleteRecordModal from "./DeleteRecordModal";
+
+const EditOrDeleteRecordModal = ({
   editOrDeleteRecordOpen,
   handleCloseEditOrDeleteRecord,
   setFetchEditRecord,
   setFetchDeleteRecord,
-}) {
-  //   editOrDeleteRecordOpen = { editOrDeleteRecordOpen };
-  //   handleCloseEditOrDeleteRecord = { handleCloseEditOrDeleteRecord };
-  //   setFetchEditRecord = { setFetchEditRecord };
-  //   setFetchDeleteRecord = { setFetchDeleteRecord };
+}) => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
-  const selectedCell = useSelector((store) => store.records.selectedCell);
+  const selectedRecord = useSelector((store) => store.records.selectedRecord);
 
   const handleOpneEdit = () => setOpenEdit(true);
   const handleCloseEdit = () => {
@@ -93,15 +91,15 @@ function EditOrDeleteModal({
       {/* <EditRecordModal
         openEdit={openEdit}
         handleCloseEdit={handleCloseEdit}
-        selectedCell={selectedCell}
+        selectedRecord={selectedRecord}
         setFetchEdit={setFetchEditRecord}
-      />
+      /> */}
       <DeleteRecordModal
         openDelete={openDelete}
         handleCloseDelete={handleCloseDelete}
-        selectedCell={selectedCell}
+        selectedRecord={selectedRecord}
         setFetchDelete={setFetchDeleteRecord}
-      /> */}
+      />
     </Box>
   );
 
@@ -110,6 +108,6 @@ function EditOrDeleteModal({
       {body}
     </Modal>
   );
-}
+};
 
-export default EditOrDeleteModal;
+export default EditOrDeleteRecordModal;
