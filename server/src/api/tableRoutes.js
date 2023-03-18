@@ -75,6 +75,37 @@ tableRoutes.put("/:id/update-cell", async (req, res, next) => {
   }
 });
 
+tableRoutes.put("/:id/update-record", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updates = req.body;
+
+    const validColumns = ["column1", "column2", "column3", "column4", "column5"];
+
+    for (const key of Object.keys(updates)) {
+      if (!validColumns.includes(key)) {
+        return res.status(400).send(`Invalid column name: ${key}`);
+      }
+    }
+
+    const record = await Table.findById(id);
+
+    if (!record) {
+      return res.status(404).send("Record not found");
+    }
+
+    for (const key of Object.keys(updates)) {
+      record[key] = updates[key];
+    }
+
+    await record.save();
+
+    res.status(200).send({ message: "Cells updated successfully", record });
+  } catch (error) {
+    next(error);
+  }
+});
+
 tableRoutes.delete("/:id/delete-cell", async (req, res, next) => {
   try {
     const { id } = req.params;

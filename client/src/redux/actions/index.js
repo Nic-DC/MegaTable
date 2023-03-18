@@ -2,6 +2,7 @@ export const SELECT_RECORD = `SELECT_RECORD`;
 export const SELECT_CELL = `SELECT_CELL`;
 export const ADD_RECORD = `ADD_RECORD`;
 export const EDIT_CELL = `EDIT_CELL`;
+export const EDIT_RECORD = `EDIT_RECORD`;
 export const DELETE_CELL = `DELETE_CELL`;
 export const DELETE_RECORD = `DELETE_RECORD`;
 
@@ -64,6 +65,30 @@ export const editCellAction = (id, columnName, newValue) => async (dispatch) => 
     }
   } catch (error) {
     console.error("Error editing cell:", error);
+  }
+};
+
+export const editRecordAction = (id, updatedRecord) => async (dispatch) => {
+  try {
+    const response = await fetch(`http://localhost:3010/table/${id}/update-record`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedRecord),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error updating the record: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    dispatch({
+      type: EDIT_RECORD,
+      payload: { id, updatedRecord: data.record },
+    });
+  } catch (error) {
+    console.error("Error updating the record:", error);
   }
 };
 

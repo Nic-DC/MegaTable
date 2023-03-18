@@ -6,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import CloseIcon from "@mui/icons-material/Close";
 
-// import EditRecordModal from "./EditRecordModal";
+import EditRecordModal from "./EditRecordModal";
 import DeleteRecordModal from "./DeleteRecordModal";
 
 const EditOrDeleteRecordModal = ({
@@ -88,12 +88,12 @@ const EditOrDeleteRecordModal = ({
         </Box>
       </Box>
 
-      {/* <EditRecordModal
+      <EditRecordModal
         openEdit={openEdit}
         handleCloseEdit={handleCloseEdit}
         selectedRecord={selectedRecord}
         setFetchEdit={setFetchEditRecord}
-      /> */}
+      />
       <DeleteRecordModal
         openDelete={openDelete}
         handleCloseDelete={handleCloseDelete}
