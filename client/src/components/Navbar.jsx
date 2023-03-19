@@ -17,7 +17,7 @@ const Navbar = () => {
         <IconButton sx={{ marginRight: 1 }} edge="end" color="inherit" aria-label="home" component={Link} to="/">
           <HomeIcon />
         </IconButton>
-        <Tooltip title="Generate table">
+        <Tooltip title="Current table">
           <IconButton edge="end" color="inherit" aria-label="generate table" component={Link} to="/table">
             <TableChartIcon />
           </IconButton>

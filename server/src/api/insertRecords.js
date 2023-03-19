@@ -20,9 +20,23 @@ const generateRecords = (count) => {
   return records;
 };
 
+// FIXED number of records
 insertRecordsRoute.post("/random", async (req, res, next) => {
   try {
     const recordsToInsert = generateRecords(10);
+    await Table.insertMany(recordsToInsert);
+    res.status(201).send("Data inserted successfully");
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
+// DYNAMIC number of records
+insertRecordsRoute.post("/random/count", async (req, res, next) => {
+  try {
+    const { count } = req.body;
+    const recordsToInsert = generateRecords(count);
     await Table.insertMany(recordsToInsert);
     res.status(201).send("Data inserted successfully");
   } catch (error) {
