@@ -1,9 +1,11 @@
 import { Router } from "express";
 import Table from "./tableModel.js";
+import { getPdfReadableStream } from "../tools/pdf-tool.js";
+import { pipeline } from "stream";
 
 const tableRoutes = new Router();
 
-/* --- Create new cell --- */
+// CREATE cell
 tableRoutes.post("/", async (req, res, next) => {
   try {
     const { columnName, value } = req.body;
@@ -27,6 +29,7 @@ tableRoutes.post("/", async (req, res, next) => {
   }
 });
 
+// CREATE record
 tableRoutes.post("/record", async (req, res, next) => {
   try {
     const { column1, column2, column3, column4, column5 } = req.body;
@@ -56,7 +59,7 @@ tableRoutes.post("/record", async (req, res, next) => {
   }
 });
 
-/* --- Read all records --- */
+// Read all records
 tableRoutes.get("/", async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -79,7 +82,7 @@ tableRoutes.get("/", async (req, res, next) => {
 //   }
 // });
 
-/* --- Update cell --- */
+// UPDATE cell
 tableRoutes.put("/:id/update-cell", async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -104,6 +107,7 @@ tableRoutes.put("/:id/update-cell", async (req, res, next) => {
   }
 });
 
+// UPDATE record
 tableRoutes.put("/:id/update-record", async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -135,6 +139,7 @@ tableRoutes.put("/:id/update-record", async (req, res, next) => {
   }
 });
 
+// DELETE cell
 tableRoutes.delete("/:id/delete-cell", async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -154,7 +159,7 @@ tableRoutes.delete("/:id/delete-cell", async (req, res, next) => {
       return res.status(400).send("Invalid column name");
     }
 
-    record[columnName] = ""; // Clear the cell value
+    record[columnName] = "";
     await record.save();
 
     res.status(200).send(record);
@@ -164,6 +169,7 @@ tableRoutes.delete("/:id/delete-cell", async (req, res, next) => {
   }
 });
 
+// DELETE record
 tableRoutes.delete("/:id/delete-record", async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -176,6 +182,28 @@ tableRoutes.delete("/:id/delete-record", async (req, res, next) => {
     res.send({ message: `Record successfully deleted!`, deletedRecordId: id });
   } catch (error) {
     console.log(error);
+    next(error);
+  }
+});
+
+// PDF - download
+tableRoutes.get("/pdf", async (req, res, next) => {
+  try {
+    const tableData = await Table.find();
+
+    if (tableData) {
+      res.setHeader("Content-Disposition", "attachment; table.pdf");
+
+      const source = getPdfReadableStream(tableData);
+      const destination = res;
+
+      pipeline(source, destination, (err) => {
+        if (err) console.log(err);
+      });
+    } else {
+      console.log(`No table data found.`);
+    }
+  } catch (error) {
     next(error);
   }
 });

@@ -8,7 +8,7 @@ import insertRecordsRoute from "./api/insertRecords.js";
 import createHttpError from "http-errors";
 
 const server = express();
-const port = process.env.PORT || 3010;
+const port = process.env.PORT;
 
 const { FE_DEV_URL, FE_PROD_URL } = process.env;
 const whitelist = [FE_DEV_URL, FE_PROD_URL];
@@ -25,7 +25,7 @@ const corsOpts = {
 };
 
 // ******************************* MIDDLEWARES ****************************************
-// server.use(cors());
+
 server.use(cors(corsOpts));
 server.use(express.json());
 

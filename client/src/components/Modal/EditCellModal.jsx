@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Button, Box, Modal, TextField, IconButton, Tooltip } from "@mui/material";
+import { Button, Box, Modal, TextField, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { editCellAction } from "../../redux/actions";
 

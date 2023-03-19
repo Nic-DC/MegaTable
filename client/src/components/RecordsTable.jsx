@@ -34,7 +34,7 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import DescriptionIcon from "@mui/icons-material/Description";
 
-function RecordsTable() {
+const RecordsTable = () => {
   const [rows, setRows] = useState([]);
   const theme = useTheme();
   const [page, setPage] = useState(1);
@@ -166,6 +166,26 @@ function RecordsTable() {
     );
   }
 
+  const handleDownloadPdf = async () => {
+    try {
+      const response = await fetch(`${endpoint}/pdf`);
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok. Failed to DOWNLOAD PDF");
+      }
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "records.pdf");
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   /* ------ EDIT & DELETE CELL SHARED VARIABLES -------*/
   const [editOrDeleteOpen, setEditOrDeleteOpen] = useState(false);
 
@@ -256,6 +276,7 @@ function RecordsTable() {
                 <Button
                   variant="contained"
                   color="primary"
+                  onClick={handleDownloadPdf}
                   sx={{
                     marginLeft: 1,
                     backgroundColor: "orangeRed",
@@ -366,9 +387,8 @@ function RecordsTable() {
                   </TableCell>
                   <TableCell
                     onClick={() => {
-                      // dispatch(selectRecordAction(row));
                       dispatch(selectCellAction({ _id: row._id, column2: row.column2 }));
-                      // setSelectedRow(selectedRow === rowIndex ? null : rowIndex);
+
                       handleOpenEditOrDelete();
                     }}
                     key={`${rowIndex}-column2`}
@@ -386,9 +406,8 @@ function RecordsTable() {
                   </TableCell>
                   <TableCell
                     onClick={() => {
-                      // dispatch(selectRecordAction(row));
                       dispatch(selectCellAction({ _id: row._id, column3: row.column3 }));
-                      // setSelectedRow(selectedRow === rowIndex ? null : rowIndex);
+
                       handleOpenEditOrDelete();
                     }}
                     key={`${rowIndex}-column3`}
@@ -406,9 +425,8 @@ function RecordsTable() {
                   </TableCell>
                   <TableCell
                     onClick={() => {
-                      // dispatch(selectRecordAction(row));
                       dispatch(selectCellAction({ _id: row._id, column4: row.column4 }));
-                      // setSelectedRow(selectedRow === rowIndex ? null : rowIndex);
+
                       handleOpenEditOrDelete();
                     }}
                     key={`${rowIndex}-column4`}
@@ -426,9 +444,8 @@ function RecordsTable() {
                   </TableCell>
                   <TableCell
                     onClick={() => {
-                      // dispatch(selectRecordAction(row));
                       dispatch(selectCellAction({ _id: row._id, column5: row.column5 }));
-                      // setSelectedRow(selectedRow === rowIndex ? null : rowIndex);
+
                       handleOpenEditOrDelete();
                     }}
                     key={`${rowIndex}-column5`}
@@ -503,5 +520,5 @@ function RecordsTable() {
       />
     </Box>
   );
-}
+};
 export default RecordsTable;

@@ -78,7 +78,7 @@ function EditOrDeleteRecordModal({ editOrDeleteOpen, handleCloseEditOrDelete, se
             }}
             sx={{ width: "100%" }}
           >
-            Delete Record
+            Delete Cell
           </Button>
         </Box>
       </Box>

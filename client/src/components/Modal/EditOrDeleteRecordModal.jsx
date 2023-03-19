@@ -3,9 +3,7 @@ import { useSelector } from "react-redux";
 import { Box, Button, IconButton, Modal } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-
 import CloseIcon from "@mui/icons-material/Close";
-
 import EditRecordModal from "./EditRecordModal";
 import DeleteRecordModal from "./DeleteRecordModal";
 
