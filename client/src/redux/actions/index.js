@@ -1,4 +1,5 @@
 export const SELECT_RECORD = `SELECT_RECORD`;
+
 export const SELECT_CELL = `SELECT_CELL`;
 export const ADD_CELL = `ADD_CELL`;
 export const ADD_RECORD = `ADD_RECORD`;

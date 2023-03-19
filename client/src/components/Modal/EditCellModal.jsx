@@ -79,7 +79,7 @@ function EditCellModal({ openEdit, handleCloseEdit, selectedCell, setFetchEdit }
         >
           Save changes
         </Button>
-        <Button variant="contained" color="secondary">
+        <Button variant="contained" color="secondary" onClick={handleCloseEdit}>
           Discard
         </Button>
       </Box>

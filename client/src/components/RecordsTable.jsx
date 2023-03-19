@@ -122,11 +122,12 @@ function RecordsTable() {
 
   function ColorBadge({ totalRecords }) {
     return (
-      <Tooltip title="Total Rows" placement="right">
+      <Tooltip title="Total Rows" placement="left">
         <Stack spacing={2} direction="row">
           <Badge
             badgeContent={totalRecords}
             color="secondary"
+            max={1000}
             sx={{
               cursor: "pointer",
               transition: "transform 0.3s ease-in-out",
@@ -233,7 +234,7 @@ function RecordsTable() {
         >
           <Box>
             <Box display="flex" alignItems="center">
-              <AddCellModal
+              {/* <AddCellModal
                 openAdd={openAdd}
                 handleCloseAdd={handleCloseAdd}
                 handleOpenAdd={handleOpenAdd}
@@ -242,7 +243,7 @@ function RecordsTable() {
                 columnNameAdd={columnNameAdd}
                 setColumnNameAdd={setColumnNameAdd}
                 setFetchAdd={setFetchAdd}
-              />
+              /> */}
               <AddRecordModal
                 openAddRecord={openAddRecord}
                 handleCloseAddRecord={handleCloseAddRecord}
@@ -277,35 +278,35 @@ function RecordsTable() {
                 <TableCell>ID</TableCell>
                 <TableCell
                   align="right"
-                  sx={{ color: selectedColumn === "column1" ? "orangered" : "#90caf9" }}
+                  sx={{ color: selectedColumn === "column1" ? "#90caf9" : "orangered" }}
                   onClick={() => handleColumnHeaderClick("column1")}
                 >
                   Column 1
                 </TableCell>
                 <TableCell
                   align="right"
-                  sx={{ color: selectedColumn === "column2" ? "orangered" : "#90caf9" }}
+                  sx={{ color: selectedColumn === "column2" ? "#90caf9" : "orangered" }}
                   onClick={() => handleColumnHeaderClick("column2")}
                 >
                   Column 2
                 </TableCell>
                 <TableCell
                   align="right"
-                  sx={{ color: selectedColumn === "column3" ? "orangered" : "#90caf9" }}
+                  sx={{ color: selectedColumn === "column3" ? "#90caf9" : "orangered" }}
                   onClick={() => handleColumnHeaderClick("column3")}
                 >
                   Column 3
                 </TableCell>
                 <TableCell
                   align="right"
-                  sx={{ color: selectedColumn === "column4" ? "orangered" : "#90caf9" }}
+                  sx={{ color: selectedColumn === "column4" ? "#90caf9" : "orangered" }}
                   onClick={() => handleColumnHeaderClick("column4")}
                 >
                   Column 4
                 </TableCell>
                 <TableCell
                   align="right"
-                  sx={{ color: selectedColumn === "column5" ? "orangered" : "#90caf9" }}
+                  sx={{ color: selectedColumn === "column5" ? "#90caf9" : "orangered" }}
                   onClick={() => handleColumnHeaderClick("column5")}
                 >
                   Column 5

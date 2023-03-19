@@ -38,7 +38,7 @@ insertRecordsRoute.post("/random/count", async (req, res, next) => {
     const { count } = req.body;
     const recordsToInsert = generateRecords(count);
     await Table.insertMany(recordsToInsert);
-    res.status(201).send("Data inserted successfully");
+    res.status(201).send({ message: `New table with ${count} rows created successfully` });
   } catch (error) {
     console.log(error);
     next(error);

@@ -43,12 +43,9 @@ function Home() {
 
   // MODAL
   const [open, setOpen] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const handleGenerateTableClick = () => {
-    // Logic to generate table
-  };
 
   return (
     <div
@@ -56,8 +53,9 @@ function Home() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        height: expanded ? "100vh" : "auto",
         boxSizing: "border-box",
+        marginTop: "5%",
       }}
     >
       <Card sx={{ maxWidth: 345 }}>
@@ -79,7 +77,7 @@ function Home() {
             </Button>
           </Tooltip>
           <Button variant="contained" color="secondary" onClick={handleOpen} sx={{ mr: 2 }}>
-            Generate New
+            Add Rows
           </Button>
           <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
             <ExpandMoreIcon />
@@ -95,11 +93,9 @@ function Home() {
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent sx={{ maxHeight: "50vh", overflowY: "auto" }}>
-            <Typography paragraph>MERN stack:</Typography>
-            <Typography paragraph>Server:</Typography>
-            <Typography paragraph>Client:</Typography>
-
-            <Typography>Set aside off of the heat to let rest for 10 minutes, and then serve.</Typography>
+            <Typography paragraph>* MERN stack, Redux, Material UI</Typography>
+            <Typography paragraph>* Server: CRUD operations for cell and record</Typography>
+            <Typography paragraph>* Client: Modals, Pagination</Typography>
           </CardContent>
         </Collapse>
       </Card>
