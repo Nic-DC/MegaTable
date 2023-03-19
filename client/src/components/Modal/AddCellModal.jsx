@@ -5,7 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import { addCellAction } from "../../redux/actions";
 
-function AddCellModal({
+const AddCellModal = ({
   openAdd,
   setOpenAdd,
   handleOpenAdd,
@@ -15,7 +15,7 @@ function AddCellModal({
   columnNameAdd,
   setColumnNameAdd,
   setFetchAdd,
-}) {
+}) => {
   console.log("NEW RECORD: ", newCell);
   const dispatch = useDispatch();
 
@@ -90,6 +90,6 @@ function AddCellModal({
       </Modal>
     </Box>
   );
-}
+};
 
 export default AddCellModal;

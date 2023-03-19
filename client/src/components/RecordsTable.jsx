@@ -9,17 +9,14 @@ import {
   Paper,
   Button,
   Tooltip,
-  PaginationItem,
 } from "@mui/material";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
-import Pagination from "@mui/material/Pagination";
+
 import DownloadIcon from "@mui/icons-material/Download";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
-import Divider from "@mui/material/Divider";
+
 import { useDispatch } from "react-redux";
 import { selectRecordAction, selectCellAction } from "../redux/actions";
-import AddCellModal from "./Modal/AddCellModal";
+// import AddCellModal from "./Modal/AddCellModal";
 import EditOrDeleteModal from "./Modal/EditOrDeleteModal";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -82,20 +79,20 @@ const RecordsTable = () => {
   };
 
   /* ------ ADD CELL -------*/
-  const [openAdd, setOpenAdd] = useState(false);
-  const [newCell, setNewCell] = useState("");
-  const [columnNameAdd, setColumnNameAdd] = useState("");
+  // const [openAdd, setOpenAdd] = useState(false);
+  // const [newCell, setNewCell] = useState("");
+  // const [columnNameAdd, setColumnNameAdd] = useState("");
 
-  const handleOpenAdd = () => {
-    console.log("POST modal open");
-    setOpenAdd(true);
-  };
+  // const handleOpenAdd = () => {
+  //   console.log("POST modal open");
+  //   setOpenAdd(true);
+  // };
 
-  const handleCloseAdd = () => {
-    setNewCell("");
-    setColumnNameAdd("");
-    setOpenAdd(false);
-  };
+  // const handleCloseAdd = () => {
+  //   setNewCell("");
+  //   setColumnNameAdd("");
+  //   setOpenAdd(false);
+  // };
 
   const [fetchAdd, setFetchAdd] = useState(false);
 

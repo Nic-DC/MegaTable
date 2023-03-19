@@ -5,7 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { deleteCellAction } from "../../redux/actions";
 import Grow from "@mui/material/Grow";
 
-function DeleteCellModal({ openDelete, handleCloseDelete, selectedCell, setFetchDelete }) {
+const DeleteCellModal = ({ openDelete, handleCloseDelete, selectedCell, setFetchDelete }) => {
   const id = selectedCell._id;
   const columnName = Object.keys(selectedCell)[1];
   const cellValue = selectedCell[columnName];
@@ -74,6 +74,6 @@ function DeleteCellModal({ openDelete, handleCloseDelete, selectedCell, setFetch
       {body}
     </Modal>
   );
-}
+};
 
 export default DeleteCellModal;

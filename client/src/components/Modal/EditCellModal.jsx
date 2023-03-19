@@ -4,7 +4,7 @@ import { Button, Box, Modal, TextField, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { editCellAction } from "../../redux/actions";
 
-function EditCellModal({ openEdit, handleCloseEdit, selectedCell, setFetchEdit }) {
+const EditCellModal = ({ openEdit, handleCloseEdit, selectedCell, setFetchEdit }) => {
   const id = selectedCell._id;
   const columnName = Object.keys(selectedCell)[1];
   const cellValue = selectedCell[columnName];
@@ -91,6 +91,6 @@ function EditCellModal({ openEdit, handleCloseEdit, selectedCell, setFetchEdit }
       {body}
     </Modal>
   );
-}
+};
 
 export default EditCellModal;

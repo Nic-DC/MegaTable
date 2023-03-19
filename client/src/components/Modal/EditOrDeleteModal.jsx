@@ -7,7 +7,7 @@ import EditCellModal from "./EditCellModal";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteCellModal from "./DeleteCellModal";
 
-function EditOrDeleteRecordModal({ editOrDeleteOpen, handleCloseEditOrDelete, setFetchEdit, setFetchDelete }) {
+const EditOrDeleteRecordModal = ({ editOrDeleteOpen, handleCloseEditOrDelete, setFetchEdit, setFetchDelete }) => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
@@ -103,6 +103,6 @@ function EditOrDeleteRecordModal({ editOrDeleteOpen, handleCloseEditOrDelete, se
       {body}
     </Modal>
   );
-}
+};
 
 export default EditOrDeleteRecordModal;
