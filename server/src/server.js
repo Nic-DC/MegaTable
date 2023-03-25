@@ -8,10 +8,13 @@ import insertRecordsRoute from "./api/insertRecords.js";
 import createHttpError from "http-errors";
 
 const server = express();
+
 const port = process.env.PORT;
 
 const { FE_DEV_URL, FE_PROD_URL } = process.env;
 const whitelist = [FE_DEV_URL, FE_PROD_URL];
+
+const mongooseURL = process.env.MONGO_URL;
 
 const corsOpts = {
   origin: (origin, corsNext) => {
@@ -37,8 +40,6 @@ server.use("/populate", insertRecordsRoute);
 server.use(badRequestHandler);
 server.use(notFoundHandler);
 server.use(genericErrorHandler);
-
-const mongooseURL = process.env.MONGO_URL;
 
 mongoose.connect(mongooseURL);
 mongoose.connection.on("connected", () => {
